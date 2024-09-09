@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <%- include('../../partials/head'); %>
+</head>
+
+<body>
+
+    <%- include('../../partials/header'); %>
+
+
+    <!-- Tabla de Categorias -->
+    <div class="m-5">
+        <h2 class="text-center m-5">Listado de Categorias</h2>
+
+        <button class="btn btn-outline-success mb-4" data-bs-toggle="modal" data-bs-target="#agregarCategoria">Agregar categoria <i class="bi bi-plus-circle"></i></button>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Imagen</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <% categorias.forEach(categoria => { %>
+
+                    <tr>
+                        <td>
+                            <img src="<%= categoria.imagen %>" alt="<%= categoria.nombre %>" width="100" height="100">
+                        </td>
+                        <td><%= categoria.nombre %></td>
+                        <td>
+                            <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#verCategoria<%= categoria._id %>"><i class="bi bi-eye"></i></button>
+                            <button class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#editarCategoria<%= categoria._id %>"><i class="bi bi-pencil-square"></i></button>
+                            <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#eliminarCategoria<%= categoria._id %>"><i class="bi bi-trash"></i></button>
+                        </td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal de ver Categoria -->
+    <% categorias.forEach(categoria => { %>
+        <div class="modal fade" id="verCategoria<%= categoria._id %>" tabindex="-1" aria-labelledby="verCategoriaLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Ver Categoria</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="d-flex gap-3">
+                        <img src="<%= categoria.imagen %>" alt="<%= categoria.nombre %>" width="200" height="200">
+                        <div>
+                            <p class="fw-bold m-0"><%= categoria.nombre %></p>
+                            <div class="mt-2">
+                                <small><%= categoria.descripcion %></small> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    <% }) %>
+
+    <!-- Modal Agregar Categoria -->
+    <div class="modal fade" id="agregarCategoria" tabindex="-1" aria-labelledby="agregarCategoriaLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar Categoria</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="/api/categorias" method="post">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="formFile" class="form-label">Nombre</label>
+                        <input class="form-control" type="text" id="nombre" name="nombre">
+                    </div>
+                    <div class="mb-3">
+                        <label for="formFile" class="form-label">Descripción</label>
+                        <input class="form-control" type="text" id="descripcion" name="descripcion">
+                    </div>
+                    <div>
+                        <label for="formFile" class="form-label">Imagen</label>
+                        <input class="form-control" type="text" id="imagen" name="imagen">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-outline-success w-100">Agregar</button>
+                </div>
+            </form>
+        </div>
+        </div>
+    </div>
+
+    <!-- Modal de editar Categoria -->
+    <% categorias.forEach(categoria => { %>
+        <div class="modal fade" id="editarCategoria<%= categoria._id %>" tabindex="-1" aria-labelledby="editarCategoriaLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Editar Categoria</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="/api/categorias/<%= categoria._id %>" method="post">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="formFile" class="form-label">Nombre</label>
+                            <input class="form-control" type="text" id="nombre" name="nombre" value="<%= categoria.nombre %>">
+                        </div>
+                        <div class="mb-3">
+                            <label for="formFile" class="form-label">Descripción</label>
+                            <input class="form-control" type="text" id="descripcion" name="descripcion" value="<%= categoria.descripcion %>">
+                        </div>
+                        <div>
+                            <label for="formFile" class="form-label">Cambiar Imagen</label>
+                            <input class="form-control" type="text" id="imagen" name="imagen" value="<%= categoria.imagen %>">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-outline-success w-100">Editar</button>
+                    </div>
+                </form>
+            </div>
+            </div>
+        </div>
+    <% }) %>
+
+
+    <!-- Modal de eliminar Categoria -->
+
+    <% categorias.forEach(categoria => { %>
+        <div class="modal fade" id="eliminarCategoria<%= categoria._id %>" tabindex="-1" aria-labelledby="verCategoriaLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Eliminar Categoria</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="d-flex gap-3">
+                        <img src="<%= categoria.imagen %>" alt="<%= categoria.nombre %>" width="200" height="200">
+                        <div>
+                            <p class="fw-bold m-0"><%= categoria.nombre %></p>
+                            <div class="mt-2">
+                                <small><%= categoria.descripcion %></small> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button onclick="eliminar('<%= categoria._id %>')" type="button" class="btn btn-outline-danger w-100">Eliminar categoria</button>
+                </div>
+            </div>
+            </div>
+        </div>
+    <% }) %>
+
+    <%- include ('../../partials/footer'); %>
+
+</body>
