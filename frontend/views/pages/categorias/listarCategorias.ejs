@@ -10,6 +10,8 @@
 
     <%- include('../../partials/header'); %>
 
+    <%- include('../../partials/messages'); %>
+
 
     <!-- Tabla de Categorias -->
     <div class="m-5">
@@ -51,7 +53,7 @@
             <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Ver Categoria</h1>
+                <h1 class="modal-title fs-5">Ver Categoria</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -75,22 +77,22 @@
         <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar Categoria</h1>
+            <h1 class="modal-title fs-5">Agregar Categoria</h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form action="/api/categorias" method="post">
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="formFile" class="form-label">Nombre</label>
-                        <input class="form-control" type="text" id="nombre" name="nombre">
+                        <input class="form-control" type="text" name="nombre">
                     </div>
                     <div class="mb-3">
                         <label for="formFile" class="form-label">Descripción</label>
-                        <input class="form-control" type="text" id="descripcion" name="descripcion">
+                        <input class="form-control" type="text" name="descripcion">
                     </div>
                     <div>
                         <label for="formFile" class="form-label">Imagen</label>
-                        <input class="form-control" type="text" id="imagen" name="imagen">
+                        <input class="form-control" type="text" name="imagen">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -107,22 +109,22 @@
             <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Editar Categoria</h1>
+                <h1 class="modal-title fs-5">Editar Categoria</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form action="/api/categorias/<%= categoria._id %>" method="post">
                     <div class="modal-body">
                         <div class="mb-3">
                             <label for="formFile" class="form-label">Nombre</label>
-                            <input class="form-control" type="text" id="nombre" name="nombre" value="<%= categoria.nombre %>">
+                            <input class="form-control" type="text" name="nombre" value="<%= categoria.nombre %>">
                         </div>
                         <div class="mb-3">
                             <label for="formFile" class="form-label">Descripción</label>
-                            <input class="form-control" type="text" id="descripcion" name="descripcion" value="<%= categoria.descripcion %>">
+                            <input class="form-control" type="text" name="descripcion" value="<%= categoria.descripcion %>">
                         </div>
                         <div>
                             <label for="formFile" class="form-label">Cambiar Imagen</label>
-                            <input class="form-control" type="text" id="imagen" name="imagen" value="<%= categoria.imagen %>">
+                            <input class="form-control" type="text" name="imagen" value="<%= categoria.imagen %>">
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -142,7 +144,7 @@
             <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Eliminar Categoria</h1>
+                <h1 class="modal-title fs-5">Eliminar Categoria</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -157,7 +159,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button onclick="eliminar('<%= categoria._id %>')" type="button" class="btn btn-outline-danger w-100">Eliminar categoria</button>
+                    <button onclick="eliminar('categorias', '<%= categoria._id %>')" type="button" class="btn btn-outline-danger w-100">Eliminar categoria</button>
                 </div>
             </div>
             </div>

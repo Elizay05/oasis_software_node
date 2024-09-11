@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <%- include('../../partials/head'); %>
+</head>
+
+<body>
+
+    <%- include('../../partials/header'); %>
+
+    <%- include('../../partials/messages'); %>
+
+
+    <!-- Tabla de Productos -->
+    <div class="m-5">
+        <h2 class="text-center m-5">Listado de Usuarios</h2>
+
+        <button class="btn btn-outline-success mb-4" data-bs-toggle="modal" data-bs-target="#agregarUsuario">Agregar Usuario <i class="bi bi-plus-circle"></i></button>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Foto de perfil</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Rol</th>
+                    <th scope="col">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <% usuarios.forEach(usuario => { %>
+
+                    <tr>
+                        <td>
+                            <img src="<%= usuario.foto %>" alt="<%= usuario.nombre %>" width="100" height="100">
+                        </td>
+                        <td><%= usuario.nombre %></td>
+                        <td><%= usuario.email %></td>
+                        <td><%= usuario.rol %></td>
+                        <td>
+                            <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#verUsuario<%= usuario._id %>"><i class="bi bi-eye"></i></button>
+                            <button class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#editarUsuario<%= usuario._id %>"><i class="bi bi-pencil-square"></i></button>
+                            <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#eliminarUsuario<%= usuario._id %>"><i class="bi bi-trash"></i></button>
+                        </td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
+
+
+    <!-- Modal de ver usuario -->
+    <% usuarios.forEach(usuario => { %>
+        <div class="modal fade" id="verUsuario<%= usuario._id %>" tabindex="-1" aria-labelledby="verUsuarioLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h1 class="modal-title fs-5">Ver Usuario</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="d-flex gap-3">
+                        <img src="<%= usuario.foto %>" alt="<%= usuario.nombre %>" width="200" height="200">
+                        <div>
+                            <p class="fw-bold m-0"><%= usuario.nombre %></p>
+                            <small><%=  usuario.rol %></small><br>
+                            <div class="d-flex flex-column mt-2">
+                                <small>Email: <%= usuario.email %></small> 
+                                <small>Cedula: <%= usuario.cedula %></small> 
+                                <small>Fecha de Nacimiento: <%= usuario.fechaFormateada %></small> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    <% }) %>
+
+
+    <!-- Modal de agregar usuario -->
+    <div class="modal fade" id="agregarUsuario" tabindex="-1" aria-labelledby="agregarUsuarioLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar Usuario</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="/api/usuarios" method="post">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="formFile" class="form-label">Nombre</label>
+                        <input class="form-control" type="text" name="nombre">
+                    </div>
+                    <div class="mb-3 d-flex justify-content-between gap-3">
+                        <div>
+                            <label for="formFile" class="form-label">email</label>
+                            <input class="form-control" type="email" name="email">
+                        </div>
+                        <div>
+                            <label for="formFile" class="form-label">contraseña</label>
+                            <input class="form-control" type="password" name="password">
+                        </div>
+                    </div>
+                    <div class="mb-3 d-flex justify-content-between gap-3">
+                        <div>
+                            <label for="formFile" class="form-label">Cedula</label>
+                            <input class="form-control" type="text" name="cedula">
+                        </div>
+                        <div>
+                            <label for="formFile" class="form-label">Fecha de nacimiento</label>
+                            <input class="form-control" type="date" name="fechaNacimiento">
+                        </div>
+                    </div>
+                    <div class="mb-3"> 
+                        <label for="formFile" class="form-label">Rol</label>
+                        <select class="form-select" name="rol">
+                            <option class="form-control">Administrador</option>
+                            <option class="form-control">Bartender</option>
+                            <option class="form-control">Mesero</option>
+                            <option class="form-control">Cliente</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="formFile" class="form-label">Foto de perfil</label>
+                        <input class="form-control" type="text" name="foto">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-outline-success w-100">Agregar</button>
+                </div>
+            </form>
+        </div>
+        </div>
+    </div>
+
+    <!-- Modal de editar usuario -->
+    <% usuarios.forEach(usuario => { %>
+        <div class="modal fade" id="editarUsuario<%= usuario._id %>" tabindex="-1" aria-labelledby="editarUsuarioLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h1 class="modal-title fs-5">Editar Usuario</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="/api/usuarios/<%= usuario._id %>" method="post">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="formFile" class="form-label">Nombre</label>
+                            <input class="form-control" type="text" name="nombre" value="<%= usuario.nombre %>">
+                        </div>
+                        <div class="mb-3">
+                            <label for="formFile" class="form-label">email</label>
+                            <input class="form-control" type="email" name="email" value="<%= usuario.email %>">
+                        </div>
+                        <div class="mb-3 d-flex justify-content-between gap-3">
+                            <div>
+                                <label for="formFile" class="form-label">Cedula</label>
+                                <input class="form-control" type="text" name="cedula" value="<%= usuario.cedula %>">
+                            </div>
+                            <div>
+                                <label for="formFile" class="form-label">Fecha de nacimiento</label>
+                                <input class="form-control" type="date" name="fechaNacimiento" value="<%= usuario.fechaFormateada %>">
+                            </div>
+                        </div>
+                        <div class="mb-3"> 
+                            <label for="formFile" class="form-label">Rol</label>
+                            <select class="form-select" name="rol">
+                                <option class="form-control">Administrador</option>
+                                <option class="form-control">Bartender</option>
+                                <option class="form-control">Mesero</option>
+                                <option class="form-control">Cliente</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="formFile" class="form-label">Foto de perfil</label>
+                            <input class="form-control" type="text" name="foto" value="<%= usuario.foto %>">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-outline-success w-100">Editar</button>
+                    </div>
+                </form>
+            </div>
+            </div>
+        </div>
+    <% }) %>
+
+
+    <!-- Modal de eliminar usuario -->
+    <% usuarios.forEach(usuario => { %>
+        <div class="modal fade" id="eliminarUsuario<%= usuario._id %>" tabindex="-1" aria-labelledby="verUsuarioLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h1 class="modal-title fs-5">Eliminar Usuario</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="d-flex gap-3">
+                        <img src="<%= usuario.foto %>" alt="<%= usuario.nombre %>" width="200" height="200">
+                        <div>
+                            <p class="fw-bold m-0"><%= usuario.nombre %></p>
+                            <small><%=  usuario.rol %></small><br>
+                            <div class="d-flex flex-column mt-2">
+                                <small>Email: <%= usuario.email %></small> 
+                                <small>Cedula: <%= usuario.cedula %></small> 
+                                <small>Fecha de Nacimiento: <%= usuario.fechaNacimiento %></small> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button onclick="eliminar('usuarios', '<%= usuario._id %>')" type="button" class="btn btn-outline-danger w-100">Eliminar usuario</button>
+                </div>
+            </div>
+            </div>
+        </div>
+    <% }) %>
+
+    <%- include ('../../partials/footer'); %>
+
+</body>

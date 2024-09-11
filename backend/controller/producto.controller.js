@@ -18,9 +18,10 @@ exports.verProductos = async(req, res) => {
 exports.crearProducto = async (req, res, ruta) => {
     try {
 
-        const productoExistente = await productoModel.findOne({ title: req.body.nombre });
+        const productoExistente = await productoModel.findOne({ nombre: req.body.nombre });
         if (productoExistente) {
-            return res.status(400).json({ message: "El producto ya está registrado" });
+            req.flash('warning_msg', 'El producto ya está registrado');
+            return res.redirect(ruta);
         }
 
         const nuevo = {
@@ -34,13 +35,15 @@ exports.crearProducto = async (req, res, ruta) => {
 
         let productoNuevo = await productoModel.create(nuevo);
         if (productoNuevo) {
-            res.redirect(ruta);
+            req.flash('success_msg', 'Producto registrado exitosamente');
         } else {
-            res.status(404).json({ message: 'No se pudo registrar el producto' });
+            req.flash('warning_msg', 'Producto no encontrado');
         }
     } catch (error) {
-        res.status(400).json({ message: "Ocurrio un error al registrar el producto:", error: error.message });
+        req.flash('error_msg', `Ocurrio un error: ${error.message}`);
     }
+
+    res.redirect(ruta);
 }
 
 exports.editarProducto = async (req, res, ruta) => {
@@ -50,9 +53,10 @@ exports.editarProducto = async (req, res, ruta) => {
         const { nombre, descripcion, categoria, precio, stock, imagen } = req.body;
 
 
-        const productoExistente = await productoModel.findOne({ title: nombre });
+        const productoExistente = await productoModel.findOne({ nombre });
         if (productoExistente && productoExistente._id.toString() !== id) {
-            return res.status(400).json({ message: "Este producto ya está registrado" });
+            req.flash('warning_msg', 'Este producto ya está registrado');
+            return res.redirect(ruta);
         }
         
         const productoEditado = {
@@ -67,14 +71,16 @@ exports.editarProducto = async (req, res, ruta) => {
         const actualizado = await productoModel.findByIdAndUpdate(id, productoEditado, { new: true });
 
         if (actualizado) {
-            res.redirect(ruta);
+            req.flash('success_msg', 'Producto actualizado exitosamente');
         } else {
-            res.status(404).json({ message: "Producto no encontrado" });
+            req.flash('warning_msg', 'Producto no encontrado');
         }
 
     } catch (error) {
-        res.status(400).json({ message: "Ocurrio un error al actualizar el producto:", error: error.message });
+        req.flash('error_msg', `Ocurrio un error: ${error.message}`);
     }
+
+    res.redirect(ruta);
 }
 
 
@@ -85,11 +91,13 @@ exports.eliminarProducto = async (req, res, ruta) => {
         const producto = await productoModel.findByIdAndDelete({_id: id});
         
         if (producto) {
-            res.send(ruta);
+            req.flash('success_msg', `Producto eliminado exitosamente`);
         } else {
-            res.status(404).json({ message: 'Producto no encontrado' });
+            req.flash('warning_msg', `Producto no encontrado`);
         }
     } catch (error) {
-        res.status(500).json({ message: "Ocurrio un error al eliminar el producto:", error: error.message });
+        req.flash('error_msg', `Ocurrio un error: ${error.message}`);
     }
+
+    res.send(ruta);
 }
