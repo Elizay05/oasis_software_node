@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <%- include('../../partials/head'); %>
+</head>
+
+<body>
+
+    <%- include('../../partials/header'); %>
+
+
+    <!-- Tabla de Productos -->
+    <div class="m-5">
+        <h2 class="text-center m-5">Listado de Eventos</h2>
+
+        <button class="btn btn-outline-success mb-4" data-bs-toggle="modal" data-bs-target="#">Agregar Evento <i class="bi bi-plus-circle"></i></button>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Imagen</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Descripción</th>
+                    <th scope="col">Stock</th>
+                    <th scope="col">Entradas Disponibles</th>
+                    <th scope="col">Precio General</th>
+                    <th scope="col">Precio VIP</th>
+                    <th scope="col">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <% eventos.forEach(evento => { %>
+
+                    <tr>
+                        <td>
+                            <img src="<%= evento.imagen %>" alt="<%= evento.nombre %>" width="100" height="100">
+                        </td>
+                        <td><%= evento.nombre %></td>
+                        <td><%= evento.fecha %></td>
+                        <td><%= evento.descripcion %></td>
+                        <td>$<%= evento.aforo %></td>
+                        <td>$<%= evento.entradas_diponibles %></td>
+                        <td>$<%= evento.precio_general %></td>
+                        <td>$<%= evento.precio_vip %></td>
+
+                        <td>
+                            <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#verProducto<%= producto._id %>"><i class="bi bi-eye"></i></button>
+                            <button class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#editarProducto<%= producto._id %>"><i class="bi bi-pencil-square"></i></button>
+                            <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#eliminarProducto<%= producto._id %>"><i class="bi bi-trash"></i></button>
+                        </td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
+
+
+    <!-- Modal de ver producto -->
+    <% eventos.forEach(evento => { %>
+        <div class="modal fade" id="#" tabindex="-1" aria-labelledby="#" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Ver Evento</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="d-flex gap-3">
+                        <img src="<%= evento.imagen %>" alt="Imagen" width="200" height="200">
+                        <div>
+                            <p class="fw-bold m-0"><%= evento.nombre %></p>
+                            <small><%= evento.fecha %></small><br>
+                            <div class="mt-2">
+                                <small><%= evento.descripcion %></small> 
+                            </div>
+                            <div class="mt-2">
+                                <small>stock: <%= evento.descripcion %></small>
+                            </div>
+                            <p class="fw-bold mt-2">$ <%= evento.aforo %></p>
+                            <small><%= evento.precio_vip %></small><br>
+                            <div class="mt-2">
+                                <small><%= evento.precio_general %></small> 
+                            </div>
+                                <p class="fw-bold mt-2">$ <%= evento.entradas_diponibles %></p>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    <% }) %>
+
+
+
+<!-- Voy Acá. -->
+
+
+
+    <!-- Modal de agregar producto -->
+    <div class="modal fade" id="agregarProducto" tabindex="-1" aria-labelledby="agregarProductoLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar Producto</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="/api/productos" method="post">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="formFile" class="form-label">Nombre</label>
+                        <input class="form-control" type="text" id="nombre" name="nombre">
+                    </div>
+                    <div class="mb-3">
+                        <label for="formFile" class="form-label">Descripción</label>
+                        <input class="form-control" type="text" id="descripcion" name="descripcion">
+                    </div>
+                    <div class="mb-3"> 
+                        <label for="formFile" class="form-label">Categoria</label>
+                        <select class="form-select" name="categoria" id="categoria">
+                            <% categorias.forEach(categoria => { %>
+                                <option class="form-control" id="<%= categoria._id %>" value="<%= categoria._id %>"><%= categoria.nombre %></option>
+                            <% }) %>
+                        </select>
+                    </div>
+                    <div class="mb-3 d-flex justify-content-between gap-3">
+                        <div>
+                            <label for="formFile" class="form-label">Precio</label>
+                            <input class="form-control" type="number" id="precio" name="precio">
+                        </div>
+                        <div>
+                            <label for="formFile" class="form-label">Stock</label>
+                            <input class="form-control" type="text" id="stock" name="stock">
+                        </div>
+                    </div>
+                    <div>
+                        <label for="formFile" class="form-label">Imagen</label>
+                        <input class="form-control" type="text" id="imagen" name="imagen"">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-outline-success w-100">Agregar</button>
+                </div>
+            </form>
+        </div>
+        </div>
+    </div>
+
+
+    <!-- Modal de editar producto -->
+    <% productos.forEach(producto => { %>
+        <div class="modal fade" id="editarProducto<%= producto._id %>" tabindex="-1" aria-labelledby="editarProductoLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Editar Producto</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="/api/productos/<%= producto._id %>" method="post">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="formFile" class="form-label">Nombre</label>
+                            <input class="form-control" type="text" id="nombre" name="nombre" value="<%= producto.nombre %>">
+                        </div>
+                        <div class="mb-3">
+                            <label for="formFile" class="form-label">Descripción</label>
+                            <input class="form-control" type="text" id="descripcion" name="descripcion" value="<%= producto.descripcion %>">
+                        </div>
+                        <div class="mb-3"> 
+                            <label for="formFile" class="form-label">Categoria</label>
+                            <select class="form-select" name="categoria" id="categoria">
+                                <% categorias.forEach(categoria => { %>
+                                    <option class="form-control w-75" id="<%= categoria._id %>" value="<%= categoria._id %>"><%= categoria.nombre %></option>
+                                <% }) %>
+                            </select>
+                        </div>
+                        <div class="mb-3 d-flex justify-content-between gap-3">
+                            <div>
+                                <label for="formFile" class="form-label">Precio</label>
+                                <input class="form-control" type="number" id="precio" name="precio" value="<%= producto.precio %>">
+                            </div>
+                            <div>
+                                <label for="formFile" class="form-label">Stock</label>
+                                <input class="form-control" type="text" id="stock" name="stock" value="<%= producto.stock %>">
+                            </div>
+                        </div>
+                        <div>
+                            <label for="formFile" class="form-label">Cambiar Imagen</label>
+                            <input class="form-control" type="text" id="imagen" name="imagen" value="<%= producto.imagen %>">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-outline-success w-100">Editar</button>
+                    </div>
+                </form>
+            </div>
+            </div>
+        </div>
+    <% }) %>
+
+
+    <!-- Modal de eliminar producto -->
+    <% productos.forEach(producto => { %>
+        <div class="modal fade" id="eliminarProducto<%= producto._id %>" tabindex="-1" aria-labelledby="verProductoLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Eliminar Producto</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="d-flex gap-3">
+                        <img src="<%= producto.imagen %>" alt="Imagen" width="200" height="200">
+                        <div>
+                            <p class="fw-bold m-0"><%= producto.nombre %></p>
+                            <small><%= producto.categoria.nombre %></small><br>
+                            <div class="mt-2">
+                                <small><%= producto.descripcion %></small> 
+                            </div>
+                            <div class="mt-2">
+                                <small>stock: <%= producto.stock %></small>
+                            </div>
+                            <p class="fw-bold mt-2">$ <%= producto.precio %></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button onclick="eliminar('<%= evento._id %>')" type="button" class="btn btn-outline-danger w-100">Eliminar Evento</button>
+                </div>
+            </div>
+            </div>
+        </div>
+    <% }) %>
+
+
+
+    <%- include ('../../partials/footer'); %>
+
+</body>
