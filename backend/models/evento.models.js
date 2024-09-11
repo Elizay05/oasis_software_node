@@ -20,7 +20,7 @@ const eventoSchema = new conexion.Schema({
         type:Number,
         required: true
     },
-    entradas_diponibles:{
+    entradas_disponibles:{
         type: Number,
         required: true,
     },
@@ -38,10 +38,6 @@ const eventoSchema = new conexion.Schema({
     imagen:{
         type: String
     },
-    reservas: {
-        type:Number,
-        required: true
-    }
 }, { versionKey: false });
 
 const eventoModel = conexion.model('Evento', eventoSchema);
