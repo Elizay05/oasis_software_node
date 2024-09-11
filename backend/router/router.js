@@ -3,6 +3,9 @@ const router = express.Router();
 
 const controladorProductos = require('../controller/producto.controller');
 const controladorCategorias = require('../controller/categoria.controller');
+const controladorEventos = require('../controller/evento.controller');
+const controladorGaleria = require('../controller/galeria.controller');
+
 
 
 // INDEX
@@ -47,6 +50,18 @@ router.post('/categorias/:id', async (req, res) => {
 
 router.delete('/categorias/:id', async (req, res) => {
     controladorCategorias.eliminarCategoria(req, res, '/api/categorias');
+});
+
+// EVENTOS
+router.get('/eventos', async (req, res) => {
+    const eventos = await controladorEventos.verEventos(req, res)
+    res.render('pages/eventos/listarEventos', {eventos});
+});
+
+// GALERIA
+router.get('/galeria', async (req, res) => {
+    const eventos = await controladorGaleria.verGaleria(req, res)
+    res.render('pages/galeria/listarFotos', {galeria});
 });
 
 
