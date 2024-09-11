@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('../../partials/head'); %>
+    
+</head>
+<body>
+    <%- include('../../partials/header'); %>
+
+    <!-- Tabla de Galerías -->
+    <div class="m-5">
+        <h2 class="text-center m-5">Galerías</h2>
+
+        <button class="btn btn-outline-success mb-4" data-bs-toggle="modal" data-bs-target="#agregarGaleria">Agregar galería <i class="bi bi-plus-circle"></i></button>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Imagen Portada</th>
+                    <th scope="col">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% galeria.forEach(galeria => { %>
+                    <tr>
+                        <td><%= galeria.nombre %></td>
+                        <td><img src="<%= galeria.imagen_portada %>" alt="<%= galeria.nombre %>" width="100" height="100"></td>
+                        <td>
+                            <button class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#editarGaleria<%= galeria._id %>"><i class="bi bi-pencil-square"></i></button>
+                            <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#eliminarGaleria<%= galeria._id %>"><i class="bi bi-trash"></i></button>
+                        </td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal de ver galería -->
+    <% galeria.forEach(galeria => { %>
+        <div class="modal fade" id="verGaleria<%= galeria._id %>" tabindex="-1" aria-labelledby="verGaleriaLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Ver Galería</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="d-flex gap-3">
+                            <img src="<%= galeria.imagen_portada %>" alt="Imagen" width="200" height="200">
+                            <div>
+                                <p class="fw-bold m-0"><%= galeria.nombre %></p>
+                                <!-- Add more gallery details if needed -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <% }) %>
+
+    <!-- Modal de agregar galería -->
+    <div class="modal fade" id="agregarGaleria" tabindex="-1" aria-labelledby="agregarGaleriaLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar Galería</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="/api/galeria" method="post">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="nombre" class="form-label">Nombre</label>
+                            <input class="form-control" type="text" id="nombre" name="nombre">
+                        </div>
+                        <div class="mb-3">
+                            <label for="imagen_portada" class="form-label">Imagen Portada</label>
+                            <input class="form-control" type="text" id="imagen_portada" name="imagen_portada">
+                        </div>
+                        <!-- Add more fields for 'fotos' if needed -->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-outline-success w-100">Agregar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de editar galería -->
+    <% galeria.forEach(galeria => { %>
+        <div class="modal fade" id="editarGaleria<%= galeria._id %>" tabindex="-1" aria-labelledby="editarGaleriaLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Editar Galería</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form action="/api/galeria/<%= galeria._id %>" method="post">
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="nombre" class="form-label">Nombre</label>
+                                <input class="form-control" type="text" id="nombre" name="nombre" value="<%= galeria.nombre %>">
+                            </div>
+                            <div class="mb-3">
+                                <label for="imagen_portada" class="form-label">Imagen Portada</label>
+                                <input class="form-control" type="text" id="imagen_portada" name="imagen_portada" value="<%= galeria.imagen_portada %>">
+                            </div>
+                            <!-- Add more fields for 'fotos' if needed -->
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-outline-success w-100">Editar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    <% }) %>
+
+    <!-- Modal de eliminar galería -->
+    <% galeria.forEach(galeria => { %>
+        <div class="modal fade" id="eliminarGaleria<%= galeria._id %>" tabindex="-1" aria-labelledby="eliminarGaleriaLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Eliminar Galería</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="d-flex gap-3">
+                            <img src="<%= galeria.imagen_portada %>" alt="Imagen" width="200" height="200">
+                            <div>
+                                <p class="fw-bold m-0"><%= galeria.nombre %></p>
+                                <P class="fw-bold m-0">Fecha: <%= galeria.fecha %></P>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button onclick="eliminarGaleria('<%= galeria._id %>')" type="button" class="btn btn-outline-danger w-100">Eliminar galería</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <% }) %>
+
+    <%- include ('../../partials/footer'); %>
+</body>
+</html>

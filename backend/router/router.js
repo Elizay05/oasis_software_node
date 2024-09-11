@@ -59,8 +59,24 @@ router.get('/eventos', async (req, res) => {
 
 // GALERIA
 router.get('/galeria', async (req, res) => {
-    const eventos = await controladorGaleria.verGaleria(req, res)
-    res.render('pages/galeria/listarFotos', {galeria});
+    controladorGaleria.verGaleria(req, res, '/api/galeria')
+    
+});
+
+router.get('/galeria/:id', async (req, res) => {
+    controladorGaleria.consultarGaleria(req, res, '/api/galeria')
+});
+
+router.post('/galeria', async (req, res) => {
+    controladorGaleria.crearGaleria(req, res, '/api/galeria');
+});
+
+router.post('/galeria/:id', async (req, res) => {
+    controladorGaleria.editarGaleria(req, res, '/api/galeria');
+});
+
+router.delete('/galeria/:id', async (req, res) => {
+    controladorGaleria.eliminarGaleria(req, res, '/api/galeria');
 });
 
 
