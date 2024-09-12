@@ -1,6 +1,6 @@
-function eliminar(ruta, id){
+function eliminar(id){
     $.ajax({
-        url: `/api/${ruta}/${id}`,
+        url: `/api/productos/${id}`, 
         type: 'DELETE',
         success: function(result){
             console.log(result);
@@ -39,6 +39,19 @@ function eliminarEventos(id){
 function eliminarCategorias(id){
     $.ajax({
         url: `/api/categorias/${id}`, 
+        type: 'DELETE',
+        success: function(result){
+            console.log(result);
+            window.location.href = `${result}`;
+        },error: function(err){
+            console.log(err);
+        }
+    })
+}
+
+function eliminarUsuarios(id){
+    $.ajax({
+        url: `/api/usuarios/${id}`, 
         type: 'DELETE',
         success: function(result){
             console.log(result);
