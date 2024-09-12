@@ -10,6 +10,9 @@
 
     <%- include('../../partials/header'); %>
 
+    
+    <%- include('../../partials/messages'); %>
+
 
     <!-- Tabla de Productos -->
     <div class="m-5">
@@ -58,7 +61,7 @@
             <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Ver Producto</h1>
+                <h1 class="modal-title fs-5">Ver Producto</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -88,40 +91,40 @@
         <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar Producto</h1>
+            <h1 class="modal-title fs-5">Agregar Producto</h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form action="/api/productos" method="post">
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="formFile" class="form-label">Nombre</label>
-                        <input class="form-control" type="text" id="nombre" name="nombre">
+                        <input class="form-control" type="text" name="nombre">
                     </div>
                     <div class="mb-3">
                         <label for="formFile" class="form-label">Descripción</label>
-                        <input class="form-control" type="text" id="descripcion" name="descripcion">
+                        <input class="form-control" type="text" name="descripcion">
                     </div>
                     <div class="mb-3"> 
                         <label for="formFile" class="form-label">Categoria</label>
-                        <select class="form-select" name="categoria" id="categoria">
+                        <select class="form-select" name="categoria">
                             <% categorias.forEach(categoria => { %>
-                                <option class="form-control" id="<%= categoria._id %>" value="<%= categoria._id %>"><%= categoria.nombre %></option>
+                                <option class="form-control" value="<%= categoria._id %>"><%= categoria.nombre %></option>
                             <% }) %>
                         </select>
                     </div>
                     <div class="mb-3 d-flex justify-content-between gap-3">
                         <div>
                             <label for="formFile" class="form-label">Precio</label>
-                            <input class="form-control" type="number" id="precio" name="precio">
+                            <input class="form-control" type="number" name="precio">
                         </div>
                         <div>
                             <label for="formFile" class="form-label">Stock</label>
-                            <input class="form-control" type="text" id="stock" name="stock">
+                            <input class="form-control" type="text" name="stock">
                         </div>
                     </div>
                     <div>
                         <label for="formFile" class="form-label">Imagen</label>
-                        <input class="form-control" type="text" id="imagen" name="imagen"">
+                        <input class="form-control" type="text" name="imagen"">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -139,40 +142,40 @@
             <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Editar Producto</h1>
+                <h1 class="modal-title fs-5">Editar Producto</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form action="/api/productos/<%= producto._id %>" method="post">
                     <div class="modal-body">
                         <div class="mb-3">
                             <label for="formFile" class="form-label">Nombre</label>
-                            <input class="form-control" type="text" id="nombre" name="nombre" value="<%= producto.nombre %>">
+                            <input class="form-control" type="text" name="nombre" value="<%= producto.nombre %>">
                         </div>
                         <div class="mb-3">
                             <label for="formFile" class="form-label">Descripción</label>
-                            <input class="form-control" type="text" id="descripcion" name="descripcion" value="<%= producto.descripcion %>">
+                            <input class="form-control" type="text" name="descripcion" value="<%= producto.descripcion %>">
                         </div>
                         <div class="mb-3"> 
                             <label for="formFile" class="form-label">Categoria</label>
-                            <select class="form-select" name="categoria" id="categoria">
+                            <select class="form-select" name="categoria">
                                 <% categorias.forEach(categoria => { %>
-                                    <option class="form-control w-75" id="<%= categoria._id %>" value="<%= categoria._id %>"><%= categoria.nombre %></option>
+                                    <option class="form-control w-75" value="<%= categoria._id %>"><%= categoria.nombre %></option>
                                 <% }) %>
                             </select>
                         </div>
                         <div class="mb-3 d-flex justify-content-between gap-3">
                             <div>
                                 <label for="formFile" class="form-label">Precio</label>
-                                <input class="form-control" type="number" id="precio" name="precio" value="<%= producto.precio %>">
+                                <input class="form-control" type="number" name="precio" value="<%= producto.precio %>">
                             </div>
                             <div>
                                 <label for="formFile" class="form-label">Stock</label>
-                                <input class="form-control" type="text" id="stock" name="stock" value="<%= producto.stock %>">
+                                <input class="form-control" type="text" name="stock" value="<%= producto.stock %>">
                             </div>
                         </div>
                         <div>
                             <label for="formFile" class="form-label">Cambiar Imagen</label>
-                            <input class="form-control" type="text" id="imagen" name="imagen" value="<%= producto.imagen %>">
+                            <input class="form-control" type="text" name="imagen" value="<%= producto.imagen %>">
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -191,7 +194,7 @@
             <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Eliminar Producto</h1>
+                <h1 class="modal-title fs-5">Eliminar Producto</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -211,7 +214,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button onclick="eliminar('<%= producto._id %>')" type="button" class="btn btn-outline-danger w-100">Eliminar producto</button>
+                    <button onclick="eliminar('productos', '<%= producto._id %>')" type="button" class="btn btn-outline-danger w-100">Eliminar producto</button>
                 </div>
             </div>
             </div>

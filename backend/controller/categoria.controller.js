@@ -1,4 +1,5 @@
 const categoriaModel = require('../models/categoria.models');
+const productoModel = require('../models/producto.models');
 
 
 exports.verCategorias = async(req, res) => {
@@ -18,9 +19,10 @@ exports.verCategorias = async(req, res) => {
 exports.crearCategoria = async (req, res, ruta) => {
     try {
 
-        const categoriaExistente = await categoriaModel.findOne({ title: req.body.nombre });
+        const categoriaExistente = await categoriaModel.findOne({ nombre: req.body.nombre });
         if (categoriaExistente) {
-            return res.status(400).json({ message: "La categoria ya está registrada" });
+            req.flash('warning_msg', 'Esta categoria ya está registrada');
+            return res.redirect(ruta);
         }
 
         const nuevo = {
@@ -31,44 +33,41 @@ exports.crearCategoria = async (req, res, ruta) => {
 
         let categoriaNueva = await categoriaModel.create(nuevo);
         if (categoriaNueva) {
-            res.redirect(ruta);
+            req.flash('success_msg', 'Categoría registrada exitosamente');
         } else {
-            res.status(404).json({ message: 'No se pudo registrar la categoria' });
+            req.flash('warning_msg', 'Categoría no encontrada');
         }
     } catch (error) {
-        res.status(400).json({ message: "Ocurrio un error al registrar la categoria:", error: error.message });
+        req.flash('error_msg', `Ocurrio un error: ${error.message}`);
     }
+
+    res.redirect(ruta);
 }
 
 exports.editarCategoria = async (req, res, ruta) => {
     try {
         const { id } = req.params;
-
         const { nombre, descripcion, imagen } = req.body;
 
-
-        const categoriaExistente = await categoriaModel.findOne({ title: nombre });
+        const categoriaExistente = await categoriaModel.findOne({ nombre });
         if (categoriaExistente && categoriaExistente._id.toString() !== id) {
-            return res.status(400).json({ message: "Esta categoria ya está registrada" });
+            req.flash('warning_msg', 'Esta categoría ya está registrada');
+            return res.redirect(ruta);
         }
-        
-        const categoriaEditada = {
-            nombre: nombre,
-            descripcion: descripcion,
-            imagen: imagen,
-        };
 
+        const categoriaEditada = { nombre, descripcion, imagen };
         const actualizado = await categoriaModel.findByIdAndUpdate(id, categoriaEditada, { new: true });
 
         if (actualizado) {
-            res.redirect(ruta);
+            req.flash('success_msg', 'Categoría actualizada exitosamente');
         } else {
-            res.status(404).json({ message: "Categoria no encontrada" });
+            req.flash('warning_msg', 'Categoría no encontrada');
         }
-
     } catch (error) {
-        res.status(400).json({ message: "Ocurrio un error al editar la categoria:", error: error.message });
+        req.flash('error_msg', `Ocurrió un error: ${error.message}`);
     }
+
+    res.redirect(ruta);
 }
 
 
@@ -76,14 +75,22 @@ exports.eliminarCategoria = async (req, res, ruta) => {
     try {
         const { id } = req.params;
 
+        const productos = await productoModel.find({ categoria: id });
+        if (productos.length > 0) {
+            req.flash('warning_msg', 'La categoría tiene productos asociados');
+            return res.send(ruta);
+        }
+
         const categoria = await categoriaModel.findByIdAndDelete({_id: id});
         
         if (categoria) {
-            res.send(ruta);
+            req.flash('success_msg', 'Categoría eliminada exitosamente');
         } else {
-            res.status(404).json({ message: 'Categoria no encontrada' });
+            req.flash('warning_msg', 'Categoría no encontrada');
         }
     } catch (error) {
-        res.status(500).json({ message: "Ocurrio un error al eliminar la categoria:", error: error.message });
+        req.flash('error_msg', `Ocurrio un error: ${error.message}`);
     }
+
+    res.send(ruta);
 }
