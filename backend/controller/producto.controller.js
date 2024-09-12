@@ -77,7 +77,6 @@ exports.editarProducto = async (req, res, ruta) => {
     }
 }
 
-
 exports.eliminarProducto = async (req, res, ruta) => {
     try {
         const { id } = req.params;

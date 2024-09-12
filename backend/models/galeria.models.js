@@ -14,7 +14,7 @@ const galeriaSchema = new conexion.Schema({
         type: String,
         //default:
     },
-    imagen:{
+    fotos:{
         type: String,
     }
 }, { versionKey: false });

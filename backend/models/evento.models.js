@@ -20,27 +20,24 @@ const eventoSchema = new conexion.Schema({
         type:Number,
         required: true
     },
-    entradas_diponibles:{
+    entradas_disponibles:{
         type: Number,
         required: true,
     },
     precio_general:{
         type: Number,
         required: true,
-        //min : [0, 'El precio general no puede ser negativo']
+        min : [0, 'El precio general no puede ser negativo']
     },
     precio_vip:{
         type: Number,
         required: true,
-        //min : [0, 'El precio VIP no puede ser negativo']
+        min : [0, 'El precio VIP no puede ser negativo'],
+        
     },
     imagen:{
         type: String
     },
-    reservas: {
-        type:Number,
-        required: true
-    }
 }, { versionKey: false });
 
 const eventoModel = conexion.model('Evento', eventoSchema);

@@ -7,7 +7,6 @@ const controladorEventos = require('../controller/evento.controller');
 const controladorGaleria = require('../controller/galeria.controller');
 
 
-
 // INDEX
 router.get('/index', async (req, res) => {
     res.render('pages/index');
@@ -58,11 +57,37 @@ router.get('/eventos', async (req, res) => {
     res.render('pages/eventos/listarEventos', {eventos});
 });
 
+router.post('/eventos', async (req, res) => {
+    controladorEventos.crearEvento(req, res, '/api/eventos');
+});
+
+router.post('/eventos/:id', async (req, res) => {
+    controladorEventos.editarEvento(req, res, '/api/eventos');
+});
+
+router.delete('/evento/:id', async (req, res) => {
+    controladorEventos.eliminarEvento(req, res, '/api/eventos');
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
 // GALERIA
 router.get('/galeria', async (req, res) => {
     const eventos = await controladorGaleria.verGaleria(req, res)
     res.render('pages/galeria/listarFotos', {galeria});
 });
+
+
 
 
 
