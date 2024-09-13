@@ -77,6 +77,18 @@ router.get('/eventos', async (req, res) => {
     res.render('pages/eventos/listarEventos', {eventos});
 });
 
+router.post('/eventos', async (req, res) => {
+    controladorEventos.crearEvento(req, res, '/api/eventos');
+});
+
+router.post('/eventos/:id', async (req, res) => {
+    controladorEventos.editarEvento(req, res, '/api/eventos');
+});
+
+router.delete('/evento/:id', async (req, res) => {
+    controladorEventos.eliminarEvento(req, res, '/api/eventos');
+});
+
 // GALERIA
 router.get('/galeria', async (req, res) => {
     controladorGaleria.verGaleria(req, res, '/api/galeria')
