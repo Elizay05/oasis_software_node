@@ -1,11 +1,11 @@
 {
   "name": "oasis_software_node",
-  "version": "1.0.0",
+  "version": "1.0.0",   
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js",
+    "start": "pm2 start index.js",
     "dev": "nodemon index.js"
   },
   "keywords": [],
