@@ -12,6 +12,10 @@ const controladorUsuarios = require('../controller/usuario.controller');
 router.get('/index', async (req, res) => {
     res.render('pages/index');
 });
+//mas_info
+router.get('/mas_info', async (req, res) => {
+    res.render('pages/mas_info');
+});
 
 // USUARIOS
 

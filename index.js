@@ -36,4 +36,4 @@ app.set('views', path.join(__dirname, '/frontend/views'));
 
 app.use(express.static('./frontend/public'));
 
-app.listen(process.env.PORT)
+app.listen(9600 || process.env.PORT)// para decir use este puerto si no esta disponible entonces use el que tiene en el sistema
