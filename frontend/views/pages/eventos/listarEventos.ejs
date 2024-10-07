@@ -73,8 +73,8 @@
                         <img src="<%= evento.imagen %>" alt="Imagen" width="200" height="200">
                         <div>
                             <div class="fw-bold m-0"><%= evento.nombre %></div>
-                                <small><b>Fecha: </b><%= evento.fecha %></small><br>
-                            <!<div class="mt-2">
+                                <small><b>Fecha: </b><%= evento.fecha %></small>
+                            <div class="mt-2">
                                 <small><b>Descripción: </b><%= evento.descripcion %></small> 
                             </div>
                             <div class="mt-2">
@@ -86,7 +86,8 @@
                             <div class="mt-2">
                                 <small><b>Precio: </b><%= evento.precio_general %></small> 
                             </div>
-                                <p class="fw-bold mt-2">Precio Vip: <%= evento.precio_vip %></p>
+                            <div class="mt-2">
+                                <small><b>Entrada Vip:</b> <%= evento.precio_vip %></small>
                             </div>
                             
                         </div>
@@ -96,6 +97,9 @@
             </div>
         </div>
     <% }) %>
+
+    
+
 
 
 
