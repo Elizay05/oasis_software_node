@@ -37,3 +37,12 @@ app.set('views', path.join(__dirname, '/frontend/views'));
 app.use(express.static('./frontend/public'));
 
 app.listen(process.env.PORT)
+
+
+
+const backup = require('./backend/config/backup');
+const cron = require('node-cron');
+cron.schedule('0 0 0 * * *', async () => {
+    console.log('Realizando Backup de la Base de datos');
+    backup.backupDatabase();
+});
