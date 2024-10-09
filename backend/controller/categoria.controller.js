@@ -1,7 +1,7 @@
 const categoriaModel = require('../models/categoria.models');
 const productoModel = require('../models/producto.models');
 const logActivity = require('../../logs')
-const logRoute = './backend/logs/galeria.log'
+const logRoute = './backend/logs/categoria.log'
 
 exports.verCategorias = async(req, res) => {
     try {

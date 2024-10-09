@@ -1,6 +1,6 @@
 const eventoModel = require('../models/evento.models');
 const logActivity = require('../../logs')
-const logRoute = './backend/logs/galeria.log'
+const logRoute = './backend/logs/evento.log'
 
 exports.verEventos = async(req, res) => {
     try {
