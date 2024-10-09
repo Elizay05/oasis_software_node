@@ -1,4 +1,6 @@
-const productoModel = require('../models/producto.models');
+const productoModel = require('../models/producto.models')
+const logActivity = require('../../log')
+const logRoute = './backend/logs/productos.log'
 
 
 exports.verProductos = async(req, res) => {
@@ -35,6 +37,7 @@ exports.crearProducto = async (req, res, ruta) => {
         let productoNuevo = await productoModel.create(nuevo);
         if (productoNuevo) {
             res.redirect(ruta);
+            logActivity.generateLog(logRoute, `Creación del producto ${productoNuevo.nombre} at ${new Date()}\n`);
         } else {
             res.status(404).json({ message: 'No se pudo registrar el producto' });
         }
@@ -65,6 +68,8 @@ exports.editarProducto = async (req, res, ruta) => {
         };
 
         const actualizado = await productoModel.findByIdAndUpdate(id, productoEditado, { new: true });
+        logActivity.generateLog(logRoute, `Edición del producto ${actualizado.nombre} at ${new Date()}\n`);
+
 
         if (actualizado) {
             res.redirect(ruta);
@@ -82,9 +87,11 @@ exports.eliminarProducto = async (req, res, ruta) => {
         const { id } = req.params;
 
         const producto = await productoModel.findByIdAndDelete({_id: id});
+        logActivity.generateLog(logRoute, `Eliminación del producto ${producto.nombre} at ${new Date()}\n`);
         
         if (producto) {
             res.send(ruta);
+
         } else {
             res.status(404).json({ message: 'Producto no encontrado' });
         }
