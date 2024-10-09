@@ -1,5 +1,7 @@
 const categoriaModel = require('../models/categoria.models');
 const productoModel = require('../models/producto.models');
+const logActivity = require('../../log');
+const logRoute = './backend/logs/categoria.log';
 
 
 exports.verCategorias = async(req, res) => {
@@ -34,6 +36,7 @@ exports.crearCategoria = async (req, res, ruta) => {
         let categoriaNueva = await categoriaModel.create(nuevo);
         if (categoriaNueva) {
             req.flash('success_msg', 'Categoría registrada exitosamente');
+            logActivity.generateLog(logRoute, `Creación de la categoría ${productoNuevo.nombre} at ${new Date()}\n`);
         } else {
             req.flash('warning_msg', 'Categoría no encontrada');
         }
@@ -60,6 +63,7 @@ exports.editarCategoria = async (req, res, ruta) => {
 
         if (actualizado) {
             req.flash('success_msg', 'Categoría actualizada exitosamente');
+            logActivity.generateLog(logRoute, `Actualización de la categoria ${productoNuevo.nombre} at ${new Date()}\n`);
         } else {
             req.flash('warning_msg', 'Categoría no encontrada');
         }
@@ -85,6 +89,7 @@ exports.eliminarCategoria = async (req, res, ruta) => {
         
         if (categoria) {
             req.flash('success_msg', 'Categoría eliminada exitosamente');
+            logActivity.generateLog(logRoute, `Eliminación de la categoría ${productoNuevo.nombre} at ${new Date()}\n`);
         } else {
             req.flash('warning_msg', 'Categoría no encontrada');
         }
