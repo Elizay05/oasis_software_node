@@ -1,6 +1,6 @@
-function eliminar(id){
+function eliminar(ruta, id){
     $.ajax({
-        url: `/api/productos/${id}`, 
+        url: `/api/${ruta}/${id}`,
         type: 'DELETE',
         success: function(result){
             console.log(result);

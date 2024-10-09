@@ -36,4 +36,14 @@ app.set('views', path.join(__dirname, '/frontend/views'));
 
 app.use(express.static('./frontend/public'));
 
+
+const backup = require('./backend/config/backup');
+const cron = require('node-cron');
+cron.schedule('0 0 1 */2 *', async () => {
+    console.log('Realizando Backup de la Base de datos');
+    backup.backupDatabase();
+});
+
+
+
 app.listen(9600 || process.env.PORT)// para decir use este puerto si no esta disponible entonces use el que tiene en el sistema

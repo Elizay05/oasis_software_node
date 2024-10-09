@@ -1,5 +1,6 @@
 const usuarioModel = require('../models/usuario.models');
-
+const logActivity = require('../../logs')
+const logRoute = './backend/logs/usuario.log'
 
 exports.verUsuarios = async(req, res) => {
     try {
@@ -53,6 +54,7 @@ exports.crearUsuario = async (req, res, ruta) => {
         let usuarioNuevo = await usuarioModel.create(nuevo);
         if (usuarioNuevo) {
             req.flash('success_msg', 'Usuario registrado exitosamente');
+            logActivity.generateLog(logRoute, `Creación del usuario ${usuarioNuevo.nombre} at ${new Date()}\n`);
         } else {
             req.flash('warning_msg', 'Usuario no encontrado');
         }
@@ -97,6 +99,7 @@ exports.editarUsuario = async (req, res, ruta) => {
 
         if (actualizado) {
             req.flash('success_msg', 'Usuario actualizado exitosamente');
+            logActivity.generateLog(logRoute, `Edición del usuario ${actualizado.nombre} at ${new Date()}\n`);
         } else {
             req.flash('warning_msg', 'Usuario no encontrado');
         }
@@ -116,6 +119,7 @@ exports.eliminarUsuario = async (req, res, ruta) => {
         
         if (usuario) {
             req.flash('success_msg', `Usuario eliminado exitosamente`);
+            logActivity.generateLog(logRoute, `Eliminación del usuario ${usuario.nombre} at ${new Date()}\n`);
         } else {
             req.flash('warning_msg', `Usuario no encontrado`);
         }

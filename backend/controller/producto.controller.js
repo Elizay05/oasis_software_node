@@ -1,5 +1,6 @@
 const productoModel = require('../models/producto.models');
-
+const logActivity = require('../../logs')
+const logRoute = './backend/logs/producto.log'
 
 exports.verProductos = async(req, res) => {
     try {
@@ -36,6 +37,8 @@ exports.crearProducto = async (req, res, ruta) => {
         let productoNuevo = await productoModel.create(nuevo);
         if (productoNuevo) {
             req.flash('success_msg', 'Producto registrado exitosamente');
+            logActivity.generateLog(logRoute, `Creación del producto ${productoNuevo.nombre} at ${new Date()}`);
+
         } else {
             req.flash('warning_msg', 'Producto no encontrado');
         }
@@ -72,6 +75,7 @@ exports.editarProducto = async (req, res, ruta) => {
 
         if (actualizado) {
             req.flash('success_msg', 'Producto actualizado exitosamente');
+            logActivity.generateLog(logRoute, `Edición del producto ${actualizado.nombre} at ${new Date()}\n`);
         } else {
             req.flash('warning_msg', 'Producto no encontrado');
         }
@@ -92,6 +96,7 @@ exports.eliminarProducto = async (req, res, ruta) => {
         
         if (producto) {
             req.flash('success_msg', `Producto eliminado exitosamente`);
+            logActivity.generateLog(logRoute, `Eliminación del producto ${producto.nombre} at ${new Date()}\n`);
         } else {
             req.flash('warning_msg', `Producto no encontrado`);
         }

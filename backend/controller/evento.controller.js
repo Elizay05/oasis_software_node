@@ -1,4 +1,6 @@
 const eventoModel = require('../models/evento.models');
+const logActivity = require('../../logs')
+const logRoute = './backend/logs/galeria.log'
 
 exports.verEventos = async(req, res) => {
     try {
@@ -34,6 +36,7 @@ exports.crearEvento = async (req, res, ruta) => {
 
         let eventoNuevo = await eventoModel.create(nuevo);
         if (eventoNuevo) {
+            logActivity.generateLog(logRoute, `Creado el evento ${eventoNuevo.nombre} at ${new Date()}`);
             res.redirect(ruta);
         } else {
             res.status(404).json({ message: 'No se pudo registrar el evento' });
@@ -70,6 +73,7 @@ exports.editarEvento = async (req, res, ruta) => {
         const actualizado = await eventoModel.findByIdAndUpdate(id, eventoEditado, { new: true });
 
         if (actualizado) {
+            logActivity.generateLog(logRoute, `Editado el evento ${actualizado.nombre} at ${new Date()}`);
             res.redirect(ruta);
         } else {
             res.status(404).json({ message: "Evento no encontrado" });
@@ -87,6 +91,7 @@ exports.eliminarEvento = async (req, res, ruta) => {
         const evento = await eventoModel.findByIdAndDelete({_id: id});
         
         if (evento) {
+            logActivity.generateLog(logRoute, `Eliminar evento ${evento.nombre} at ${new Date()}`);
             res.send(ruta);
         } else {
             res.status(404).json({ message: 'Evento no encontrado' });

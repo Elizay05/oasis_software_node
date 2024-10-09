@@ -1,4 +1,6 @@
 const galeriaModel = require('../models/galeria.models');
+const logActivity = require('../../logs')
+const logRoute = './backend/logs/galeria.log'
 
 // View all galleries
 exports.verGaleria = async (req, res) => {
@@ -47,6 +49,7 @@ exports.crearGaleria = async (req, res, ruta) => {
 
         let galeriaNueva = await galeriaModel.create(nuevaGaleria);
         if (galeriaNueva) {
+            logActivity.generateLog(logRoute, `Creación de la galeria ${nuevaGaleria.nombre} at ${new Date()}`);
             res.redirect(ruta); // Adjust this route as needed
         } else {
             res.status(404).json({ message: 'No se pudo registrar la galería' });
@@ -82,6 +85,7 @@ exports.editarGaleria = async (req, res, ruta) => {
         const actualizado = await galeriaModel.findByIdAndUpdate(id, galeriaEditada, { new: true });
 
         if (actualizado) {
+            logActivity.generateLog(logRoute, `Actualizado del producto ${actualizado.nombre} at ${new Date()}`);
             res.redirect(ruta); // Adjust this route as needed
         } else {
             res.status(404).json({ message: "Galería no encontrada" });
@@ -100,6 +104,7 @@ exports.eliminarGaleria = async (req, res, ruta) => {
         const galeria = await galeriaModel.findByIdAndDelete(id);
         
         if (galeria) {
+            logActivity.generateLog(logRoute, `eliminado el producto ${galeria.nombre} at ${new Date()}`);
             res.send(ruta);
         } else {
             res.status(404).json({ message: 'Galería no encontrado' });
